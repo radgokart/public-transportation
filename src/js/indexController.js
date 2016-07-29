@@ -2,7 +2,6 @@
 
 /* function found at https://davidwalsh.name/convert-xml-json*/
 function xmlToJson(xml) {
-
 	/* Create the return object */
 	var obj = {};
 
@@ -18,7 +17,6 @@ function xmlToJson(xml) {
 	} else if (xml.nodeType == 3) { /* text */
 		obj = xml.nodeValue;
 	}
-
 	/* do children */
 	if (xml.hasChildNodes()) {
 		for(var i = 0; i < xml.childNodes.length; i++) {
@@ -54,7 +52,8 @@ var ViewModel = function() {
     self.attributes_for_trips = ko.observableArray();
     self.legs_of_trips = ko.observableArray();
 
-    /* http://stackoverflow.com/questions/10555115/knockout-js-make-every-nested-object-an-observable
+    /*
+    http://stackoverflow.com/questions/10555115/knockout-js-make-every-nested-object-an-observable
     */
     var makeChildrenObservables = function (object) {
         if(!ko.isObservable(object)) return;
@@ -83,7 +82,6 @@ var ViewModel = function() {
                             station[key] = station[key]['#text'];
                         }
                     });
-
                     self.stations(model.stationList);
                 });
     		}
@@ -146,7 +144,6 @@ var ViewModel = function() {
                         }
                         self.legs_of_trips.push(ko.observableArray(temp_leg_array));
                     }
-
                     makeChildrenObservables(self.legs_of_trips());
                 });
     		}
@@ -156,6 +153,8 @@ var ViewModel = function() {
     orig.onchange = function() {
         if (orig.value == dest.value) {
             console.log('Can\'t do the same, sorry.');
+            self.attributes_for_trips.removeAll();
+            self.legs_of_trips.removeAll();
         } else {
             updateRoute();
         }
@@ -164,12 +163,12 @@ var ViewModel = function() {
     dest.onchange = function() {
         if (orig.value == dest.value) {
             console.log('Can\'t do the same, sorry.');
+            self.attributes_for_trips.removeAll();
+            self.legs_of_trips.removeAll();
         } else {
             updateRoute();
         }
     };
-
-
 }; /* end of ViewModel */
 
 ko.applyBindings(new ViewModel()); /* end of this file */

@@ -13,3 +13,9 @@ main {
 
 #destInput {
   width: 75%; }
+
+.trip-details {
+  margin-top: 40px; }
+
+.trip-number-span {
+  font-weight: bold; }

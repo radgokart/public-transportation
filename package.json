@@ -2,7 +2,7 @@
   "name": "public-transportation",
   "version": "1.0.0",
   "description": "public transit schedule app",
-  "main": "/dist/js/index.js",
+  "main": "/dist/js/indexController.js",
   "dependencies": {
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^3.1.0",
