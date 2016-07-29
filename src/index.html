@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/styles.css" rel="stylesheet">
+        <meta charset="UTF-8">
+    </head>
+    <body>
+        <header>
+            <h2>BART Trip Planner</h2>
+        </header>
+        <main>
+            <form>
+                <div class="form-group">
+                    <label for="origInput">Origin station</label>
+                    <!-- KOjs foreach here-->
+                    <select class="form-control" id="origInput" data-bind="foreach: stations">
+                        <!-- foreach creates more option elements here-->
+                        <option data-bind="text: name, attr: {value: abbr}"></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="destInput">Destination station</label>
+                    <!-- KOjs foreach here-->
+                    <select class="form-control" id="destInput" data-bind="foreach: stations">
+                        <!-- foreach creates more option elements here-->
+                        <option data-bind="text: name, attr: {value: abbr}"></option>
+                    </select>
+                </div>
+            </form>
+            <section class="trip-details">
+                <h4>Trip details</h4>
+                <ul data-bind="foreach: {data: trips.$data, as: 'trip-item'}">
+                    <li data-bind="foreach: {data: trip-item, as: 'trip-sub-item'}">
+
+                    </li>
+                </ul>
+            </section>
+        </main>
+        <script src="https://code.jquery.com/jquery-3.1.0.min.js"   integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="   crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-min.js"></script>
+        <script src="js/indexController.js"></script>
+    </body>
+</html>
