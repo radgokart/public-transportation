@@ -19,3 +19,26 @@ main {
 
 .trip-number-span {
   font-weight: bold; }
+
+/* Extra small devices (phones, less than 768px) */
+/* No media query since this is the default in Bootstrap */
+/* Small devices (tablets, 768px and up) */
+@media screen and (min-width: 768px) {
+  body {
+    width: 615px;
+    margin: auto;
+    border: 1px solid black; } }
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+  body {
+    width: 645px;
+    margin: auto;
+    border: 1px solid black; } }
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+  body {
+    width: 600px;
+    margin: auto;
+    border: 1px solid black; } }
