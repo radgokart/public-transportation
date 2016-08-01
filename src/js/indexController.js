@@ -1,4 +1,10 @@
-/* import idb from 'lib/idb'; */
+/* Check for service worker support, code help came from https://developers.google.com/web/fundamentals/getting-started/push-notifications/step-03?hl=en */
+if ('serviceWorker' in navigator) {
+ navigator.serviceWorker.register('/sw.js').then(function(reg) {
+ }).catch(function(err) {
+   console.log(err);
+ });
+}
 
 /* function found at https://davidwalsh.name/convert-xml-json*/
 function xmlToJson(xml) {
@@ -51,6 +57,8 @@ var ViewModel = function() {
     self.trips = ko.observableArray(); /* populated by updateRoute */
     self.attributes_for_trips = ko.observableArray();
     self.legs_of_trips = ko.observableArray();
+    self.trip_origin = ko.observable($('#origInput option:selected').text());
+    self.trip_destination = ko.observable($('#destInput option:selected').text());
 
     /*
     http://stackoverflow.com/questions/10555115/knockout-js-make-every-nested-object-an-observable
@@ -133,6 +141,10 @@ var ViewModel = function() {
                     for (var trip in self.trips()) {
                         self.attributes_for_trips.push(self.trips()[trip]['@attributes'][0]);
                     }
+
+                    self.trip_origin($('#origInput option:selected').text());
+                    self.trip_destination($('#destInput option:selected').text());
+
                     makeChildrenObservables(self.attributes_for_trips);
 
                     /* now push legs of trips into another array to make KO DOM stuff easier */
@@ -146,15 +158,23 @@ var ViewModel = function() {
                     }
                     makeChildrenObservables(self.legs_of_trips());
                 });
-    		}
+    		},
+            error: function(response) {
+                console.log('Ajax call failed');
+                self.trip_origin('No network connection');
+                self.trip_destination('Previously found routes may still be available');
+                self.attributes_for_trips.removeAll();
+                self.legs_of_trips.removeAll();
+            }
     	});
     }
 
     orig.onchange = function() {
         if (orig.value == dest.value) {
-            console.log('Can\'t do the same, sorry.');
             self.attributes_for_trips.removeAll();
             self.legs_of_trips.removeAll();
+            self.trip_origin($('#origInput option:selected').text());
+            self.trip_destination($('#destInput option:selected').text());
         } else {
             updateRoute();
         }
@@ -162,9 +182,10 @@ var ViewModel = function() {
 
     dest.onchange = function() {
         if (orig.value == dest.value) {
-            console.log('Can\'t do the same, sorry.');
             self.attributes_for_trips.removeAll();
             self.legs_of_trips.removeAll();
+            self.trip_origin($('#origInput option:selected').text());
+            self.trip_destination($('#destInput option:selected').text());
         } else {
             updateRoute();
         }
