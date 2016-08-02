@@ -25,9 +25,9 @@ gulp.task('styles', function() {
 
 gulp.task('compressjs', function (cb) {
   pump([
-        gulp.src('src/js/**/*.js'),
+        gulp.src('src/**/*.js'),
         uglify(ugly_options),
-        gulp.dest('./dist/js')
+        gulp.dest('./dist')
     ],
     cb
   );

@@ -57,8 +57,9 @@ var ViewModel = function() {
     self.trips = ko.observableArray(); /* populated by updateRoute */
     self.attributes_for_trips = ko.observableArray();
     self.legs_of_trips = ko.observableArray();
-    self.trip_origin = ko.observable($('#origInput option:selected').text());
-    self.trip_destination = ko.observable($('#destInput option:selected').text());
+    self.trip_origin = ko.observable();
+    self.trip_destination = ko.observable();
+    self.trip_duration = ko.observable();
 
     /*
     http://stackoverflow.com/questions/10555115/knockout-js-make-every-nested-object-an-observable
@@ -74,6 +75,50 @@ var ViewModel = function() {
                 makeChildrenObservables(object()[child]);
             }
     };
+
+    function findTimeDifference(start, end) {
+        var start_hour;
+        var start_min;
+        var end_hour;
+        var end_min;
+
+        if (start.length === 7) {
+            start_hour = parseInt(start.slice(0,1), 10);
+            if (start.slice(5) == 'PM') {
+                start_hour = start_hour + 12;
+            }
+            start_min = parseInt(start.slice(2,4), 10);
+        } else {
+            start_hour = parseInt(start.slice(0,2), 10);
+            if (start.slice(6) == 'PM') {
+                start_hour = start_hour + 12;
+            }
+            start_min = parseInt(start.slice(3,5), 10);
+        }
+
+        if (end.length === 7) {
+            end_hour = parseInt(end.slice(0,1), 10);
+            if (end.slice(5) == 'PM') {
+                end_hour = end_hour + 12;
+            }
+            end_min = parseInt(end.slice(2,4), 10);
+        } else {
+            end_hour = parseInt(end.slice(0,2), 10);
+            if (end.slice(6) == 'PM') {
+                end_hour = end_hour + 12;
+            }
+            end_min = parseInt(end.slice(3,5), 10);
+        }
+
+        var start_object = new Date(0, 0, 0, start_hour, start_min);
+        var end_object = new Date(0, 0, 0, end_hour, end_min);
+
+        var time_diff = Math.abs(end_object.getTime() - start_object.getTime());
+        var time_diff_in_seconds = time_diff/1000;
+        var time_diff_in_minutes = time_diff_in_seconds/60;
+
+        self.trip_duration(time_diff_in_minutes);
+    }
 
     function getStations() {
         /* Get station list from BART api and store it in model */
@@ -145,6 +190,10 @@ var ViewModel = function() {
                     self.trip_origin($('#origInput option:selected').text());
                     self.trip_destination($('#destInput option:selected').text());
 
+                    var start_time_string = self.attributes_for_trips()[0].origTimeMin;
+                    var end_time_string = self.attributes_for_trips()[0].destTimeMin;
+
+                    findTimeDifference(start_time_string, end_time_string);
                     makeChildrenObservables(self.attributes_for_trips);
 
                     /* now push legs of trips into another array to make KO DOM stuff easier */
@@ -163,6 +212,7 @@ var ViewModel = function() {
                 console.log('Ajax call failed');
                 self.trip_origin('No network connection');
                 self.trip_destination('Previously found routes may still be available');
+                self.trip_duration(0);
                 self.attributes_for_trips.removeAll();
                 self.legs_of_trips.removeAll();
             }
@@ -175,6 +225,7 @@ var ViewModel = function() {
             self.legs_of_trips.removeAll();
             self.trip_origin($('#origInput option:selected').text());
             self.trip_destination($('#destInput option:selected').text());
+            self.trip_duration(0);
         } else {
             updateRoute();
         }
@@ -186,10 +237,20 @@ var ViewModel = function() {
             self.legs_of_trips.removeAll();
             self.trip_origin($('#origInput option:selected').text());
             self.trip_destination($('#destInput option:selected').text());
+            self.trip_duration(0);
         } else {
             updateRoute();
         }
     };
+
+    dest.onchange();
+
+
 }; /* end of ViewModel */
 
-ko.applyBindings(new ViewModel()); /* end of this file */
+var myViewModel = new ViewModel();
+myViewModel.trip_origin('12th St. Oakland City Center');
+myViewModel.trip_destination('12th St. Oakland City Center');
+
+ko.applyBindings(myViewModel);
+/* end of this file */
