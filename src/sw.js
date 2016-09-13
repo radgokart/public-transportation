@@ -25,17 +25,17 @@ self.addEventListener('install', function(event) {
 
 self.addEventListener('fetch', function(event) {
     /* This adds the response full of stations to the cache if not already there. KOjs can work with it offline now. */
-    if (event.request.url.startsWith('http://api.bart.gov/api/stn')) {
+    if (event.request.url.startsWith('https://api.bart.gov/api/stn')) {
         caches.match(event.request).then(function(response) {
             if (response === undefined) {
                 caches.open(bartStationCache).then(function(cache) {
-                    cache.add('http://api.bart.gov/api/stn.aspx?cmd=stns&key=MW9S-E7SL-26DU-VV8V');
+                    cache.add('https://api.bart.gov/api/stn.aspx?cmd=stns&key=MW9S-E7SL-26DU-VV8V');
                 });
             }
         });
     }
     /* This adds the response for the route request to the cache if not already there. KOjs can work with it offline now. */
-    if (event.request.url.startsWith('http://api.bart.gov/api/sched')) {
+    if (event.request.url.startsWith('https://api.bart.gov/api/sched')) {
         caches.match(event.request).then(function(response) {
             if (response === undefined) {
                 caches.open(tripAttrCache).then(function(cache) {

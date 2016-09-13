@@ -123,7 +123,7 @@ var ViewModel = function() {
     function getStations() {
         /* Get station list from BART api and store it in model */
         $.ajax({
-    		url: 'http://api.bart.gov/api/stn.aspx?cmd=stns&key=MW9S-E7SL-26DU-VV8V',
+    		url: 'https://api.bart.gov/api/stn.aspx?cmd=stns&key=MW9S-E7SL-26DU-VV8V',
     		dataType: 'xml',
     		success: function(response) {
     			Promise.resolve(response).then(function(xml) {
@@ -145,7 +145,7 @@ var ViewModel = function() {
 
     function updateRoute() {
         $.ajax({
-    		url: 'http://api.bart.gov/api/sched.aspx?cmd=depart&orig=' + orig.value + '&dest=' + dest.value + '&date=now&key=MW9S-E7SL-26DU-VV8V&b=2&a=2&l=1',
+    		url: 'https://api.bart.gov/api/sched.aspx?cmd=depart&orig=' + orig.value + '&dest=' + dest.value + '&date=now&key=MW9S-E7SL-26DU-VV8V&b=2&a=2&l=1',
     		dataType: 'xml',
     		success: function(response) {
     			Promise.resolve(response).then(function(xml) {
