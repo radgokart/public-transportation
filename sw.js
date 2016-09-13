@@ -11,12 +11,12 @@ self.addEventListener('install', function(event) {
   event.waitUntil(
     caches.open(staticCacheName).then(function(cache) {
       return cache.addAll([
-        '/index.html',
-        '/js/indexController.js',
-        '/js/lib/jquery-3.1.0.min.js',
-        '/js/lib/knockout-min.js',
-        '/css/bootstrap.min.css',
-        '/css/styles.css'
+        'https://rubalcava.github.io/public-transportation/index.html',
+        'https://rubalcava.github.io/public-transportation/js/indexController.js',
+        'https://rubalcava.github.io/public-transportation/js/lib/jquery-3.1.0.min.js',
+        'https://rubalcava.github.io/public-transportation/js/lib/knockout-min.js',
+        'https://rubalcava.github.io/public-transportation/css/bootstrap.min.css',
+        'https://rubalcava.github.io/public-transportation/css/styles.css'
       ]);
     })
   );
