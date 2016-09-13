@@ -1,6 +1,6 @@
 /* Check for service worker support, code help came from https://developers.google.com/web/fundamentals/getting-started/push-notifications/step-03?hl=en */
 if ('serviceWorker' in navigator) {
- navigator.serviceWorker.register('/sw.js').then(function(reg) {
+ navigator.serviceWorker.register('./sw.js').then(function(reg) {
  }).catch(function(err) {
    console.log(err);
  });

@@ -11,7 +11,6 @@ self.addEventListener('install', function(event) {
   event.waitUntil(
     caches.open(staticCacheName).then(function(cache) {
       return cache.addAll([
-        '/',
         '/index.html',
         '/js/indexController.js',
         '/js/lib/jquery-3.1.0.min.js',
